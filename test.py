@@ -23,6 +23,7 @@ input("\n\n按下 enter 键后退出。")
 # 从某个模块中导入多个函数,格式为： from somemodule import firstfunc, secondfunc, thirdfunc
 #
 # 将某个模块中的全部函数导入，格式为： from somemodule import *
+# ，但是那些由单一下划线（_）开头的名字不在此例。大多数情况， Python程序员不使用这种方法，因为引入的其它来源的命名，很可能覆盖了已有的定义
 import sys; x = 'runoob'; sys.stdout.write(x + '\n')
 
 # 多行注释用三个单引号 ''' 或者三个双引号 """ 将注释括起来，例如:
@@ -174,6 +175,27 @@ print(a ^ b)  # a和b中不同时存在的元素
 # 向字典添加新内容的方法是增加新的键/值对
 # 能删单一的元素也能清空字典，清空只需一项操作。
 # 显示删除一个字典用del命令
+#  在字典中遍历时，关键字和对应的值可以使用 items() 方法同时解读出来：
+
+knights = {'gallahad': 'the pure', 'robin': 'the brave'}
+for k, v in knights.items():
+    print(k, v)
+
+ # 在序列中遍历时，索引位置和对应值可以使用enumerate()函数同时得到：
+for i, v in enumerate(['tic', 'tac', 'toe']):
+    print(i, v)
+# 同时遍历两个或更多的序列，可以使用 zip() 组合：
+questions = ['name', 'quest', 'favorite color']
+answers = ['lancelot', 'the holy grail', 'blue']
+for q, a in zip(questions, answers):
+    print('What is your {0}?  It is {1}.'.format(q, a))
+# 反向遍历一个序列，首先指定这个序列，然后调用 reversed() 函数：
+for i in reversed(range(1, 10, 2)):
+    print(i)
+# 要按顺序遍历一个序列，使用 sorted() 函数返回一个已排序的序列，并不修改原值：
+basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+for f in sorted(set(basket)):
+    print(f)
 
 dictt = {}
 dictt['one'] = "1 - 菜鸟教程"
@@ -245,3 +267,300 @@ a, b = 0, 1
 while b < 1000:
     print(b, end=',')
     a, b = b, a+b
+
+# 迭代是Python最强大的功能之一，是访问集合元素的一种方式。。
+# 迭代器是一个可以记住遍历的位置的对象。
+# 迭代器对象从集合的第一个元素开始访问，直到所有的元素被访问完结束。迭代器只能往前不会后退。
+# 迭代器有两个基本的方法：iter() 和 next()。
+# 字符串，列表或元组对象都可用于创建迭代器：
+list=[1,2,3,4]
+it = iter(list)    # 创建迭代器对象
+print('\n')
+print(next(it))   # 输出迭代器的下一个元素
+print(next(it))
+
+# 迭代器对象可以使用常规for语句进行遍历
+list=[1,2,3,4]
+it = iter(list)    # 创建迭代器对象
+for x in it:
+    print(x, end=" ")
+print('\nwhile true:\n')
+
+import sys  # 引入 sys 模块
+list = [1, 2, 3, 4]
+it = iter(list)  # 创建迭代器对象
+while True:
+    try:
+        print(next(it))
+    except StopIteration:
+        # sys.exit
+        break
+
+# 在 Python 中，使用了 yield 的函数被称为生成器（generator）。
+# 跟普通函数不同的是，生成器是一个返回迭代器的函数，只能用于迭代操作，更简单点理解生成器就是一个迭代器。
+# 在调用生成器运行的过程中，每次遇到 yield 时函数会暂停并保存当前所有的运行信息，返回yield的值。并在下一次执行 next()方法时从当前位置继续运行。
+
+
+def fibonacci(n):  # 生成器函数 - 斐波那契
+    aa, bb, counter = 0, 1, 0
+    while True:
+        if (counter > n):
+            return
+        yield aa
+        aa, bb = bb, aa + bb
+        counter += 1
+
+
+f = fibonacci(10)  # f 是一个迭代器，由生成器返回生成
+while True:
+    try:
+        print(next(f), end=" ")
+    except StopIteration:
+        # sys.exit
+        break
+
+# Python 定义函数使用 def 关键字，一般格式如下：
+# def 函数名（参数列表）:
+#     函数体
+# python 中，类型属于对象，变量是没有类型的：
+# a=[1,2,3]
+# a="Runoob"
+# 可更改(mutable)与不可更改(immutable)对象
+# 在 python 中，strings, tuples, 和 numbers 是不可更改的对象，而 list,dict 等则是可以修改的对象。
+# python 中一切都是对象，严格意义我们不能说值传递还是引用传递，我们应该说传不可变对象和传可变对象。
+print('\n不可变对象传值\n')
+
+
+def changeint(a1):
+    a1 = 10
+
+
+b1 = 2
+changeint(b1)
+print(b1) # 结果是 2
+# 必需参数
+# 必需参数须以正确的顺序传入函数。调用时的数量必须和声明时的一样。
+# 关键字参数
+# 关键字参数和函数调用关系紧密，函数调用使用关键字参数来确定传入的参数值。
+# 使用关键字参数允许函数调用时参数的顺序与声明时不一致，因为Python
+# 解释器能够用参数名匹配参数值。
+def printme(str):
+    "打印任何传入的字符串"
+    print(str);
+    return;
+# 调用printme函数
+printme(str="菜鸟教程");
+
+# 以下实例中演示了函数参数的使用不需要使用指定顺序：
+# 可写函数说明
+
+
+def printinfo(name, age):
+    "打印任何传入的字符串"
+    print("名字: ", name);
+    print("年龄: ", age);
+    return;
+
+
+# 调用printinfo函数
+printinfo(age=50, name="runoob");
+# 默认参数
+# 调用函数时，如果没有传递参数，则会使用默认参数。以下实例中如果没有传入age参数，则使用默认值：
+# 可写函数说明
+
+
+def printinfo(name, age=35):
+    "打印任何传入的字符串"
+    print("名字: ", name);
+    print("年龄: ", age);
+    return;
+
+
+# 调用printinfo函数
+printinfo(age=50, name="runoob");
+print("------------------------")
+printinfo(name="runoob");
+
+# 你可能需要一个函数能处理比当初声明时更多的参数。这些参数叫做不定长参数，和上述2种参数不同，声明时不会命名。基本语法如下：
+# def functionname([formal_args,] *var_args_tuple ):
+#    "函数_文档字符串"
+#    function_suite
+#    return [expression]
+# 加了星号（*）的变量名会存放所有未命名的变量参数。如果在函数调用时没有指定参数，它就是一个空元组。我们也可以不向函数传递未命名的变量。如下实例：
+
+
+def printinfo(arg1, *vartuple):
+    "打印任何传入的参数"
+    print("输出: ")
+    print(arg1)
+    for var in vartuple:
+        print(var)
+    return;
+
+
+# 调用printinfo 函数
+printinfo(10);
+printinfo(70, 60, 50);
+
+# 匿名函数
+# python 使用 lambda 来创建匿名函数。
+# 所谓匿名，意即不再使用 def 语句这样标准的形式定义一个函数。
+#     lambda 只是一个表达式，函数体比 def 简单很多。
+#     lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。
+#     lambda 函数拥有自己的命名空间，且不能访问自己参数列表之外或全局命名空间里的参数。
+#     虽然lambda函数看起来只能写一行，却不等同于C或C++的内联函数，后者的目的是调用小函数时不占用栈内存从而增加运行效率
+# lambda 函数的语法只包含一个语句，如下：
+# lambda [arg1 [,arg2,.....argn]]:expression
+sum = lambda arg1, arg2: arg1 + arg2;
+
+# 调用sum函数
+print("相加后的值为 : ", sum(10, 20))
+print("相加后的值为 : ", sum(20, 20))
+
+# return [表达式] 语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。
+# 变量作用域
+# Python 中，程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的。
+# 变量的作用域决定了在哪一部分程序可以访问哪个特定的变量名称。Python的作用域一共有4种，分别是：
+#     L （Local） 局部作用域
+#     E （Enclosing） 闭包函数外的函数中
+#     G （Global） 全局作用域
+#     B （Built-in） 内建作用域
+# 以 L –> E –> G –>B 的规则查找，即：在局部找不到，便会去局部外的局部找（例如闭包），再找不到就会去全局找，再者去内建中找。
+x = int(2.9)  # 内建作用域
+g_count = 0  # 全局作用域
+def outer():
+    o_count = 1  # 闭包函数外的函数中
+    def inner():
+        i_count = 2  # 局部作用域
+# Python 中只有模块（module），类（class）以及函数（def、lambda）才会引入新的作用域，
+# 其它的代码块（如 if/elif/else/、try/except、for/while等）是不会引入新的作用域的，
+        # 也就是说这这些语句内定义的变量，外部也可以访问，如下代码
+if True:
+   msg = 'I am from Runoob'
+msg
+'I am from Runoob'
+# 实例中 msg 变量定义在 if 语句块中，但外部还是可以访问的。
+# 如果将 msg 定义在函数中，则它就是局部变量，外部不能访问：
+
+def test():
+     msg_inner = 'I am from Runoob'
+# msg_inner
+
+# 全局变量和局部变量
+# 定义在函数内部的变量拥有一个局部作用域，定义在函数外的拥有全局作用域。
+# 局部变量只能在其被声明的函数内部访问，而全局变量可以在整个程序范围内访问。调用函数时，所有在函数内声明的变量名称都将被加入到作用域中。
+
+# global 和 nonlocal关键字
+# 当内部作用域想修改外部作用域的变量时，就要用到global和nonlocal关键字了。
+# 以下实例修改全局变量 num：
+num = 1
+def fun1():
+    global num  # 需要使用 global 关键字声明
+    print(num)
+    num = 123
+    print(num)
+fun1()
+# 如果要修改嵌套作用域（enclosing作用域，外层非全局作用域）中的变量则需要
+# nonlocal 关键字了，如下实例：
+
+
+def outer():
+    num = 10
+
+    def inner():
+        nonlocal num  # nonlocal关键字声明
+        num = 100
+        print(num)
+
+    inner()
+    print(num)
+
+
+outer()
+
+# 另外有一种特殊情况，假设下面这段代码被运行：(a2=1 没有)
+a2 = 10
+
+
+def test():
+    a2 = 1
+    a2 += a2
+    print(a2)
+
+
+test()
+
+
+#  python 解释器来编程，如果你从 Python 解释器退出再进入，那么你定义的所有的方法和变量就都消失了。
+#
+# 为此 Python 提供了一个办法，把这些定义存放在文件中，为一些脚本或者交互式的解释器实例使用，这个文件被称为模块。
+#
+# 模块是一个包含所有你定义的函数和变量的文件，其后缀名是.py。模块可以被别的程序引入，以使用该模块中的函数等功能。这也是使用 python 标准库的方法。
+#  当解释器遇到 import 语句，如果模块在当前的搜索路径就会被导入。
+# 搜索路径是一个解释器会先进行搜索的所有目录的列表。如想要导入模块 support，需要把命令放在脚本的顶端
+# 搜索路径是由一系列目录名组成的，Python解释器就依次从这些目录中去寻找所引入的模块。
+# 这看起来很像环境变量，事实上，也可以通过定义环境变量的方式来确定搜索路径。
+# 搜索路径是在Python编译或安装的时候确定的，安装新的库应该也会修改。搜索路径被存储在sys模块中的path变量
+print('命令行参数如下:')
+for i in sys.argv:
+    print(i)
+print('\n\nPython 路径为：', sys.path, '\n')
+
+# 一个模块被另一个程序第一次引入时，其主程序将运行。如果我们想在模块被引入时，模块中的某一程序块不执行，
+# 我们可以用__name__属性来使该程序块仅在该模块自身运行时执行。
+if __name__ == '__main__':
+   print('程序自身在运行')
+else:
+   print('我来自另一模块')
+
+# 内置的函数 dir() 可以找到模块内定义的所有名称。以一个字符串列表的形式返回:
+# 如果没有给定参数，那么dir()函数会罗列出当前定义的所有名称
+# import fibo, sys
+# dir(fibo)
+#    模块除了方法定义，还可以包括可执行的代码。这些代码一般用来初始化这个模块。这些代码只有在第一次被导入时才会被执行。
+#    每个模块有各自独立的符号表，在模块内部为所有的函数当作全局符号表来使用
+#    当你确实知道你在做什么的话，你也可以通过modname.itemname这样的表示法来访问模块内的函数
+#    可以使用import 直接把模块内（函数，变量的）名称导入到当前操作模块。比如:
+# from fibo import fib, fib2    ？？？？
+# fib(500)
+   # 这种导入的方法不会把被导入的模块的名称放在当前的字符表中（所以在这个例子里面，fibo这个名称是没有定义的）
+
+   # 注意当使用from package import item这种形式的时候，对应的item既可以是包里面的子模块（子包），或者包里面定义的其他名称，比如函数，类或者变量。
+   # import语法会首先把item当作一个包定义的名称，如果没找到，再试图按照一个模块去导入。如果还没找到，恭喜，一个: exc:ImportError
+   # 异常被抛出了
+   # 如果使用形如import item.subitem.subsubitem这种导入形式，除了最后一项，都必须是包，而最后一项则可以是模块或者是包，但是不可以是类，函数或者变量的名字
+
+
+# 标准模块
+# Python 本身带着一些标准的模块库，在 Python 库参考文档中将会介绍到（就是后面的"库参考文档"）。
+# 有些模块直接被构建在解析器里，这些虽然不是一些语言内置的功能，但是他却能很高效的使用，甚至是系统级调用也没问题。
+# 这些组件会根据不同的操作系统进行不同形式的配置，比如 winreg 这个模块就只会提供给 Windows 系统。
+# 应该注意到这有一个特别的模块 sys ，它内置在每一个 Python 解析器中。变量 sys.ps1 和 sys.ps2 定义了主提示符和副提示符所对应的字符串:
+#  import sys
+# >>> sys.ps1
+# '>>> '
+# >>> sys.ps2
+# '... '
+# >>> sys.ps1 = 'C> '
+# C> print('Yuck!')
+
+
+#  包是一种管理 Python 模块命名空间的形式，采用"点模块名称"。
+# 比如一个模块的名称是 A.B， 那么他表示一个包 A中的子模块 B
+
+# 从一个包中导入 *
+# 导入语句遵循如下规则：如果包定义文件 __init__.py 存在一个叫做 __all__ 的列表变量，那么在使用 from package import * 的时候就把这个列表中的所有名字作为包内容导入。
+# 作为包的作者，可别忘了在更新包之后保证 __all__ 也更新了啊
+
+# 使用from Package import specific_submodule这种方法永远不会有错。事实上，这也是推荐的方法。除非是你要导入的子模块有可能和其他包的子模块重名
+
+#  如果在结构中包是一个子包（比如这个例子中对于包sound来说），而你又想导入兄弟包（同级别的包）你就得使用导入绝对的路径来导入。
+   # 比如，如果模块sound.filters.vocoder 要使用包sound.effects中的模块echo，你就要写成 from sound.effects import echo。
+# from . import echo
+# from .. import formats
+# from ..filters import equalizer
+
+#  无论是隐式的还是显式的相对导入都是从当前模块开始的。主模块的名字永远是"__main__"，一个Python应用程序的主模块，应当总是使用绝对路径引用。
+# 包还提供一个额外的属性__path__。这是一个目录列表，里面每一个包含的目录都有为这个包服务的__init__.py，你得在其他__init__.py被执行前定义哦。
+# 可以修改这个变量，用来影响包含在包里面的模块和子包。
+# 这个功能并不常用，一般用来扩展包里面的模块
