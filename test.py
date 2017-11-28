@@ -564,3 +564,256 @@ else:
 # 包还提供一个额外的属性__path__。这是一个目录列表，里面每一个包含的目录都有为这个包服务的__init__.py，你得在其他__init__.py被执行前定义哦。
 # 可以修改这个变量，用来影响包含在包里面的模块和子包。
 # 这个功能并不常用，一般用来扩展包里面的模块
+
+#python输入输出
+# 输出格式美化
+# Python两种输出值的方式: 表达式语句和 print() 函数。
+# 第三种方式是使用文件对象的 write() 方法，标准输出文件可以用 sys.stdout 引用。
+# 如果你希望输出的形式更加多样，可以使用 str.format() 函数来格式化输出值。
+# 如果你希望将输出的值转成字符串，可以使用 repr() 或 str() 函数来实现。
+#     str()： 函数返回一个用户易读的表达形式。
+#     repr()： 产生一个解释器易读的表达形式。
+
+# 读取键盘输入
+# Python提供了 input() 置函数从标准输入读入一行文本，默认的标准输入是键盘。
+# input 可以接收一个Python表达式作为输入，并将运算结果返回。
+# str = input("请输入：");
+# print ("你输入的内容是: ", str)
+
+# 读和写文件
+# open() 将会返回一个 file 对象，基本语法格式如下:
+# open(filename, mode)
+#     filename：filename 变量是一个包含了你要访问的文件名称的字符串值。
+#     mode：mode决定了打开文件的模式：只读，写入，追加等。所有可取值见如下的完全列表。这个参数是非强制的，默认文件访问模式为只读(r)。
+
+#  python的pickle模块实现了基本的数据序列和反序列化。
+# 通过pickle模块的序列化操作我们能够将程序中运行的对象信息保存到文件中去，永久存储。
+# 通过pickle模块的反序列化操作，我们能够从文件中创建上一次程序保存的对象。
+# 基本接口：
+# pickle.dump(obj, file, [,protocol])
+# 有了 pickle 这个对象, 就能对 file 以读取的形式打开:
+# x = pickle.load(file)
+# 注解：从 file 中读取一个字符串，并将它重构为原来的python对象。
+import pickle
+
+# 使用pickle模块将数据对象保存到文件
+data1 = {'a': [1, 2.0, 3, 4+6j],
+         'b': ('string', u'Unicode string'),
+         'c': None}
+
+selfref_list = [1, 2, 3]
+selfref_list.append(selfref_list)
+
+output = open('data.pkl', 'wb')
+
+# Pickle dictionary using protocol 0.
+pickle.dump(data1, output)
+
+# Pickle the list using the highest protocol available.
+pickle.dump(selfref_list, output, -1)
+
+output.close()
+
+
+# Python3 OS 文件/目录方法
+# os 模块提供了非常丰富的方法用来处理文件和目录，具体看api
+
+
+# Python有两种错误很容易辨认：语法错误和异常。
+# 语法错误
+# Python 的语法错误或者称之为解析错，是初学者经常碰到的
+# try语句按照如下方式工作；
+#     首先，执行try子句（在关键字try和关键字except之间的语句）
+#     如果没有异常发生，忽略except子句，try子句执行后结束。
+#     如果在执行try子句的过程中发生了异常，那么try子句余下的部分将被忽略。如果异常的类型和 except 之后的名称相符，那么对应的except子句将被执行。最后执行 try 语句之后的代码。
+#     如果一个异常没有与任何的except匹配，那么这个异常将会传递给上层的try中。
+# 一个 try 语句可能包含多个except子句，分别来处理不同的特定的异常。最多只有一个分支会被执行。
+# 处理程序将只针对对应的try子句中的异常进行处理，而不是其他的 try 的处理程序中的异常。
+# 一个except子句可以同时处理多个异常，这些异常将被放在一个括号里成为一个元组
+# except (RuntimeError, TypeError, NameError):
+#         pass
+# 最后一个except子句可以忽略异常的名称，它将被当作通配符使用。你可以使用这种方法打印一个错误信息，然后再次把异常抛出。
+import sys
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except OSError as err:
+    print("OS error: {0}".format(err))
+except ValueError:
+    print("Could not convert data to an integer.")
+except:
+    print("Unexpected error:", sys.exc_info()[0])
+    raise
+
+# try except 语句还有一个可选的else子句，如果使用这个子句，那么必须放在所有的except子句之后。这个子句将在try子句没有发生任何异常的时候执行。例如:
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except IOError:
+        print('cannot open', arg)
+    else:
+        print(arg, 'has', len(f.readlines()), 'lines')
+        f.close()
+
+# 使用 else 子句比把所有的语句都放在
+# try 子句里面要好，这样可以避免一些意想不到的、而except又没有捕获的异常。
+# 异常处理并不仅仅处理那些直接发生在try子句中的异常，而且还能处理子句中调用的函数（甚至间接调用的函数）里抛出的异常。例如:
+def this_fails():
+    x = 1 / 0
+try:
+    this_fails()
+except ZeroDivisionError as err:
+        print('Handling run-time error:', err)
+
+ # Python 使用 raise 语句抛出一个指定的异常
+ # raise NameError('HiThere')
+
+# raise 唯一的一个参数指定了要被抛出的异常。它必须是一个异常的实例或者是异常的类（也就是 Exception 的子类）。
+# 如果你只想知道这是否抛出了一个异常，并不想去处理它，那么一个简单的 raise 语句就可以再次把它抛出。
+try:
+    raise NameError('HiThere')
+except NameError:
+        print('An exception flew by!')
+        raise
+
+# 用户自定义异常
+# 你可以通过创建一个新的exception类来拥有自己的异常。异常应该继承自Exception类，或者直接继承，或者间接继承
+#  class MyError(Exception):
+#     def __init__(self, value):
+#         self.value = value
+#
+#     def __str__(self):
+#         return repr(self.value)
+#
+# try:
+#     raise MyError(2 * 2)
+# except MyError as e:
+#     print('My exception occurred, value:', e.value)
+#
+# raise MyError('oops!')
+
+# 类 Exception 默认的 __init__() 被覆盖。
+# 当创建一个模块有可能抛出多种不同的异常时，一种通常的做法是为这个包建立一个基础异常类，然后基于这个基础类为不同的错误情况创建不同的子类:
+# 大多数的异常的名字都以"Error"结尾，就跟标准的异常命名一样。
+
+# 定义清理行为
+# try 语句还有另外一个可选的子句，它定义了无论在任何情况下都会执行的清理行为。 例如:
+try:
+    raise KeyboardInterrupt
+finally: print('Goodbye, world!')
+
+# 以上例子不管 try 子句里面有没有发生异常，finally 子句都会执行。
+# 如果一个异常在 try 子句里（或者在 except 和 else 子句里）被抛出，而又没有任何的 except 把它截住，那么这个异常会在 finally 子句执行后再次被抛出
+
+# 预定义的清理行为
+# 一些对象定义了标准的清理行为，无论系统是否成功的使用了它，一旦不需要它了，那么这个标准的清理行为就会执行。
+# 这面这个例子展示了尝试打开一个文件，然后把内容打印到屏幕上:
+
+for line in open("myfile.txt"):
+    print(line, end="")
+
+# 以上这段代码的问题是，当执行完毕后，文件会保持打开状态，并没有被关闭。
+# 关键词 with 语句就可以保证诸如文件之类的对象在使用完之后一定会正确的执行他的清理方法:
+
+with open("myfile.txt") as f:
+    for line in f:
+        print(line, end="")
+
+
+# 很多类都倾向于将对象创建为有初始状态的。因此类可能会定义一个名为 __init__() 的特殊方法（构造方法），像下面这样：
+def __init__(self):
+    self.data = []
+# 类定义了 __init__() 方法的话，类的实例化操作会自动调用 __init__() 方法。所以在下例中，可以这样创建一个新的实例:
+x = MyClass()
+# 当然， __init__() 方法可以有参数，参数通过 __init__() 传递到类的实例化操作上。
+
+# self代表类的实例,代表当前对象的地址，而非类,self.class 则指向类
+# 类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的第一个参数名称, 按照惯例它的名称是 self
+# self 不是 python 关键字，我们把他换成 runoob 也是可以正常执行的:
+
+class Test:
+    def prt(self):
+        print(self)
+        print(self.__class__)
+
+
+t = Test()
+t.prt()
+
+
+# 类定义
+class people:
+    # 定义基本属性
+    name = ''
+    age = 0
+    # 定义私有属性,私有属性在类外部无法直接进行访问
+    __weight = 0
+
+    # 定义构造方法
+    def __init__(self, n, a, w):
+        self.name = n
+        self.age = a
+        self.__weight = w
+
+    def speak(self):
+        print("%s 说: 我 %d 岁。" % (self.name, self.age))
+
+
+# 实例化类
+p = people('runoob', 10, 30)
+p.speak()
+
+# 下划线的_的意义？？
+
+# Python 同样支持类的继承，如果一种语言不支持继承，类就没有什么意义。派生类的定义如下所示:
+# class DerivedClassName(BaseClassName1):
+#     <statement-1>
+#     .
+#     .
+#     .
+#     <statement-N>
+# 需要注意圆括号中基类的顺序，若是基类中有相同的方法名，而在子类使用时未指定，python从左至右搜索 即方法在子类中未找到时，从左到右查找基类中是否包含方法。
+# BaseClassName（示例中的基类名）必须与派生类定义在一个作用域内。除了类，还可以用表达式，基类定义在另一个模块中时这一点非常有用:
+# class DerivedClassName(modname.BaseClassName):
+
+# Python同样有限的支持多继承形式。多继承的类定义形如下例:
+# class DerivedClassName(Base1, Base2, Base3):
+#     <statement-1>
+#     .
+#     .
+#     .
+#     <statement-N>
+# 需要注意圆括号中父类的顺序，若是父类中有相同的方法名，而在子类使用时未指定，python从左至右搜索 即方法在子类中未找到时，从左到右查找父类中是否包含方法
+
+# 类属性与方法
+# 类的私有属性
+# __private_attrs：两个下划线开头，声明该属性为私有，不能在类地外部被使用或直接访问。在类内部的方法中使用时 self.__private_attrs。
+# 类的方法
+# 在类地内部，使用 def 关键字来定义一个方法，与一般函数定义不同，类方法必须包含参数 self，且为第一个参数，self 代表的是类的实例。
+# self 的名字并不是规定死的，也可以使用 this，但是最好还是按照约定是用 self。
+# 类的私有方法
+# __private_method：两个下划线开头，声明该方法为私有方法，只能在类的内部调用 ，不能在类地外部调用。self.__private_methods。
+# 类的专有方法：
+# __init__: 构造函数，在生成对象时调用
+# __del__: 析构函数，释放对象时使用
+# __repr__: 打印，转换
+# __setitem__: 按照索引赋值
+# 等。。
+
+# Python同样支持运算符重载，我们可以对类的专有方法进行重载，实例如下：
+class Vector:
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+
+    def __str__(self):
+        return 'Vector (%d, %d)' % (self.a, self.b)
+
+    def __add__(self, other):
+        return Vector(self.a + other.a, self.b + other.b)
+
+
+v1 = Vector(2, 10)
+v2 = Vector(5, -2)
+print(v1 + v2)
