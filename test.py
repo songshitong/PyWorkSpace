@@ -237,3 +237,11 @@ for num in range(10,20):  # 迭代 10 到 20 之间的数字
          break            # 跳出当前循环
    else:                  # 循环的 else 部分
       print(num, '是一个质数')
+
+# 关键字end可以用于将结果输出到同一行，或者在输出的末尾添加不同的字符，实例如下：
+# Fibonacci series: 斐波纳契数列
+# 两个元素的总和确定了下一个数
+a, b = 0, 1
+while b < 1000:
+    print(b, end=',')
+    a, b = b, a+b
