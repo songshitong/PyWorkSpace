@@ -99,6 +99,8 @@ def re_test():
     result = re.sub(r"\d", "#", txt)  #替换数字为#
     print(result)  # 密码######
 
+
+
 if __name__ == '__main__':
     str_test()
     re_test()
